@@ -1,0 +1,51 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+	var testObject=[]; 
+	function init(){
+		//Retrieve the object from storage
+		var retrievedObject = localStorage.getItem('testObject');
+		if(retrievedObject){
+			var i;
+			testObject = JSON.parse(retrievedObject);
+			for (i = 0;  i<testObject.length; i++) {
+				var title 	= testObject[i].title;
+				var todo 	= testObject[i].todo;
+				setUpValue(title, todo);
+			};
+		}		
+	}
+	function onSubmitSave(){
+		alert("i am here");
+		var title 	= $("#input").val();
+       	var todo 	= $("#input2").val();
+       	var items 	= {
+      			title:title,
+        		todo:todo
+      		};
+      	testObject.push(items);
+      	console.log(JSON.stringify(testObject));
+      	localStorage.setItem('testObject', JSON.stringify(testObject));
+      	setUpValue(title, todo);
+      	document.getElementById("input").value 	= "";
+      	document.getElementById("input2").value = "";
+	}
+	function setUpValue(title, todo){
+		var mainDIV 		= document.getElementById("inputValue");
+		var titleNode 		= document.createTextNode(title);
+		var todoNode 		= document.createTextNode(todo);
+		var titleElement 	= document.createElement("h1").appendChild(titleNode);
+		var todoElement 	= document.createElement("p").appendChild(todoNode);
+		mainDIV.appendChild(titleElement);
+		mainDIV.appendChild(todoElement);
+	}
+</script>
+</head>
+<body onload="init()">
+	<input type="text" name="user" id="input">
+	<input type="text" name="user" id="input2"></p>
+	<button onclick="onSubmitSave()">Set the value of the input field</button>
+	<div id="inputValue"></div>
+</body>
+</html>
